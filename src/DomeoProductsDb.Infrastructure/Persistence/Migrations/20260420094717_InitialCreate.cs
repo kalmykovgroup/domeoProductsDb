@@ -74,7 +74,13 @@ namespace DomeoProductsDb.Infrastructure.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false)
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    Phone = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
+                    Website = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    Address = table.Column<string>(type: "character varying(512)", maxLength: 512, nullable: true),
+                    Country = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
+                    Inn = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -112,7 +118,8 @@ namespace DomeoProductsDb.Infrastructure.Persistence.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false),
                     ExternalCode = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     NameRu = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    CategoryId = table.Column<int>(type: "integer", nullable: false)
+                    CategoryId = table.Column<int>(type: "integer", nullable: false),
+                    MainImageFilename = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true)
                 },
                 constraints: table =>
                 {
