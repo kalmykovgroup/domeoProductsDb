@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install *)",
+      "Bash(python *)",
+      "Bash(export PYTHONIOENCODING=utf-8)",
+      "Bash(dotnet --list-sdks)",
+      "Bash(dotnet --version)",
+      "Bash(dotnet restore *)",
+      "Bash(dotnet build *)",
+      "Bash(dotnet tool *)",
+      "Bash(dotnet ef *)",
+      "Bash(dotnet clean *)",
+      "Bash(dotnet sln *)",
+      "Read(//c/tmp/**)",
+      "Bash(python3)",
+      "Bash(grep -E \"\\\\.\\(csproj|py\\)$\")",
+      "Bash(PYTHONIOENCODING=utf-8 python3 *)",
+      "Bash(grep -E \"\\\\.\\(cs|csproj\\)$\")",
+      "Bash(docker compose *)",
+      "Bash(docker exec domeo-pim-postgres *)",
+      "Bash(export MSYS_NO_PATHCONV=1)",
+      "Bash(curl -s http://localhost:5050/api/brands)",
+      "Bash(curl -s http://localhost:5050/api/attributes)",
+      "Bash(curl -s http://localhost:5050/api/attributes/36/enum-values)",
+      "Bash(curl -s http://localhost:5050/api/attributes/10/enum-values)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:5050/api/attributes/99999/enum-values)",
+      "Bash(curl -s http://localhost:5050/api/suppliers/1)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:5050/api/suppliers/99999)",
+      "Bash(curl -sv http://localhost:5050/api/suppliers/1)",
+      "Bash(curl -I -s -o /dev/null -w \"cdn.mdm-complect.ru: HTTP %{http_code}, size_header=%{size_header}, content_type=%{content_type}\\\\n\" \"https://cdn.mdm-complect.ru/CONTENT/catalogue/yaschiki/LS88-BL.jpg\")",
+      "Bash(curl -I -s -o /dev/null -w \"whatswood.ru:       HTTP %{http_code}, size_header=%{size_header}, content_type=%{content_type}\\\\n\" \"https://whatswood.ru/wp-content/uploads/2017/01/H1145-ST10.jpg\")",
+      "Bash(curl -sI \"https://cdn.mdm-complect.ru/CONTENT/catalogue/yaschiki/LS88-BL.jpg\")",
+      "Bash(curl -sI \"https://whatswood.ru/wp-content/uploads/2017/01/H1145-ST10.jpg\")"
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+name: domeo-pim
+
+# Host ports are chosen to avoid collisions with other services on this machine
+# (supabase-db on 5432, Auth.API on 5001, etc.). Change here if any clash.
+#   host 5433 -> postgres:5432
+#   host 5221 -> products-service:8080
+#   host 5050 -> api-gateway:8080
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: domeo-pim-postgres
+    environment:
+      POSTGRES_DB: domeo_products
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d domeo_products"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  products-service:
+    build:
+      context: .
+      dockerfile: src/DomeoProductsDb.ProductsService/Dockerfile
+    container_name: domeo-pim-products
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Postgres: "Host=postgres;Port=5432;Database=domeo_products;Username=postgres;Password=postgres"
+    ports:
+      - "5221:8080"
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    container_name: domeo-pim-gateway
+    depends_on:
+      - products-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ReverseProxy__Clusters__products-service__Destinations__default__Address: "http://products-service:8080/"
+    ports:
+      - "5050:8080"
+
+volumes:
+  postgres_data:

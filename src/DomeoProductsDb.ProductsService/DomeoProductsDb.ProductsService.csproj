@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>DomeoProductsDb.ProductsService</RootNamespace>
+        <AssemblyName>DomeoProductsDb.ProductsService</AssemblyName>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MediatR" Version="12.4.1" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\DomeoProductsDb.Application\DomeoProductsDb.Application.csproj" />
+        <ProjectReference Include="..\DomeoProductsDb.Infrastructure\DomeoProductsDb.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
+        <Content Update="SeedData\seed.json" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
+</Project>
