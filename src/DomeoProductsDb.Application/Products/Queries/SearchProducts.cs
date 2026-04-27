@@ -1,5 +1,5 @@
-using DomeoProductsDb.Application.Common;
 using DomeoProductsDb.Application.Abstractions;
+using DomeoProductsDb.Application.Common;
 using MediatR;
 
 namespace DomeoProductsDb.Application.Products.Queries;
@@ -7,6 +7,13 @@ namespace DomeoProductsDb.Application.Products.Queries;
 public record SearchProductsQuery(
     int? CategoryId,
     string? Query,
+    /// <summary>
+    /// Атрибутные фильтры: code → список разрешённых значений (OR внутри одного code,
+    /// AND между разными code). Пример: { "толщина" → ["16","18"], "страна_сборки" → ["германия"] }
+    /// — продукт проходит, если у него атрибут «толщина» имеет значение 16 ИЛИ 18,
+    /// И атрибут «страна_сборки» = «германия».
+    /// </summary>
+    IReadOnlyDictionary<string, IReadOnlyList<string>>? AttributeFilters,
     int Page,
     int PageSize) : IRequest<PagedResult<ProductSummaryDto>>;
 
@@ -22,7 +29,7 @@ public class SearchProductsHandler : IRequestHandler<SearchProductsQuery, PagedR
         var pageSize = Math.Clamp(request.PageSize, 1, 200);
 
         var (items, total) = await _repo.SearchAsync(
-            request.CategoryId, request.Query, page, pageSize, ct);
+            request.CategoryId, request.Query, request.AttributeFilters, page, pageSize, ct);
 
         var dtos = items.Select(p =>
         {
@@ -35,6 +42,7 @@ public class SearchProductsHandler : IRequestHandler<SearchProductsQuery, PagedR
                 p.Category?.TitleRu ?? string.Empty,
                 minOffer?.PriceAmount,
                 minOffer?.Supplier?.Name,
+                p.PriceBasis,
                 PreviewUrl: p.MainImageFilename is null
                     ? null
                     : $"/images/preview/{p.MainImageFilename}");
